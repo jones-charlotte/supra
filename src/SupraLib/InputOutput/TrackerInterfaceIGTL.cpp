@@ -76,7 +76,6 @@ namespace supra
                                   headerMsg->GetPackSize(),
                                   timeout,  
                                   1);
-				int rs = m_socket->Receive(headerMsg->GetPackPointer(), headerMsg->GetPackSize());
 				{
 					lock_guard<mutex> lock(m_objectMutex);
 					if (rs == 0)
@@ -161,8 +160,7 @@ namespace supra
                       trackingData->GetPackBodySize(),
                       timeout,
                       1);
-		m_socket->Receive(trackingData->GetPackBodyPointer(), trackingData->GetPackBodySize());
-
+		
 		// Deserialize the transform data
 		// If you want to skip CRC check, call Unpack() without argument.
 		int c = trackingData->Unpack(1);
