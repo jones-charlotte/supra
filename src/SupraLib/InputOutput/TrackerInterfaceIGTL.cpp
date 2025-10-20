@@ -71,6 +71,11 @@ namespace supra
 				igtl::MessageHeader::Pointer headerMsg;
 				headerMsg = igtl::MessageHeader::New();
 				headerMsg->InitPack();
+        bool timeout = false;  
+        int rs = m_socket->Receive(headerMsg->GetPackPointer(),
+                                  headerMsg->GetPackSize(),
+                                  timeout,  
+                                  1);
 				int rs = m_socket->Receive(headerMsg->GetPackPointer(), headerMsg->GetPackSize());
 				{
 					lock_guard<mutex> lock(m_objectMutex);
@@ -151,6 +156,11 @@ namespace supra
 		trackingData->AllocatePack();
 
 		// Receive body from the socket
+    bool timeout = false;  
+    m_socket->Receive(trackingData->GetPackBodyPointer(),
+                      trackingData->GetPackBodySize(),
+                      timeout,
+                      1);
 		m_socket->Receive(trackingData->GetPackBodyPointer(), trackingData->GetPackBodySize());
 
 		// Deserialize the transform data
