@@ -16,9 +16,10 @@ set(CMAKE_AUTOUIC ON)
 
 include(ExternalProject)
 
+# Use Charlotte's fork of NodeEditor with Qt 5.14+ fix
 SET(NodeEditor_DIR "${CMAKE_CURRENT_BINARY_DIR}/NodeEditor")
-SET(NodeEditor_GIT_REPOSITORY "https://github.com/goeblr/nodeeditor.git" CACHE STRING "")
-SET(NodeEditor_GIT_TAG "3bcba3740d68932f3ffaa4b3dc73e624fe51e2db" CACHE STRING "")
+SET(NodeEditor_GIT_REPOSITORY "https://github.com/jones-charlotte/nodeeditor.git" CACHE STRING "")
+SET(NodeEditor_GIT_TAG "master" CACHE STRING "")
 ExternalProject_Add( 
 	NodeEditor
 	PREFIX "${NodeEditor_DIR}"
