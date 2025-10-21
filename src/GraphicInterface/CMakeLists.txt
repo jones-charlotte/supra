@@ -126,7 +126,11 @@ add_executable(SUPRA_GUI ${SOURCES} ${HEADERS} ${MOC_HEADERS} ${FORMS} ${UIS})
 
 TARGET_COMPILE_DEFINITIONS(SUPRA_GUI
 	PRIVATE ${SUPRA_Lib_DEFINES}
-	${CAMPVIS_DEFINITIONS} NODE_EDITOR_STATIC)
+	${CAMPVIS_DEFINITIONS} NODE_EDITOR_STATIC QT_NO_EMIT)
+
+# Fix Qt5/TBB compatibility issue: Qt5 defines 'emit' macro which conflicts with TBB's profiling.h 
+# Disable Qt's emit macro globally and use Q_EMIT instead in the code
+# This prevents conflicts with TBB's profiling.h which defines its own emit() functions
 
 if(NOT SUPRA_INTERFACE_GRAPHIC_CMD)
 	# generate proper GUI program on specified platform

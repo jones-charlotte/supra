@@ -134,7 +134,7 @@ namespace supra
 
 	void MainWindow::quitCallback()
 	{
-		emit externClose();
+		Q_EMIT externClose();
 	}
 
 	void MainWindow::closeEvent(QCloseEvent *event)

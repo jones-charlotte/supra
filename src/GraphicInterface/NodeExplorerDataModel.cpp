@@ -1,11 +1,11 @@
 // ================================================================================================
 // 
 // If not explicitly stated: Copyright (C) 2018, all rights reserved,
-//      Rüdiger Göbl 
+//      Rï¿½diger Gï¿½bl 
 //		Email r.goebl@tum.de
 //      Chair for Computer Aided Medical Procedures
-//      Technische Universität München
-//      Boltzmannstr. 3, 85748 Garching b. München, Germany
+//      Technische Universitï¿½t Mï¿½nchen
+//      Boltzmannstr. 3, 85748 Garching b. Mï¿½nchen, Germany
 // 
 // ================================================================================================
 
