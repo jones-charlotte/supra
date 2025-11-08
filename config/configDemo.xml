@@ -9,8 +9,9 @@
         </inputs>
         <outputs>
             <output type="MetaImageOutputDevice" id="MHD">
-                <param name="createSequences" type="bool">1</param>
-                <param name="filename" type="string">mhd_output</param>
+                <param name="createSequences" type="bool">0</param>
+                <param name="filename" type="string">demo_output</param>
+                <param name="active" type="bool">1</param>
             </output>
         </outputs>
         <nodes>
@@ -30,29 +31,31 @@
         </nodes>
     </devices>
     <connections>
+        <!-- Complete processing pipeline -->
         <connection>
-            <from id="BEAM" port="0"/>
-            <to id="DEMO" port="0"/>
-        </connection>
-        <connection>
-            <from id="BEAM" port="0"/>
-            <to id="MHD" port="0"/>
-        </connection>
-        <connection>
-            <from id="DEMO" port="0"/>
-            <to id="LOGC" port="0"/>
+            <from id="US-Mock" port="0"/>
+            <to id="LIMIT" port="0"/>
         </connection>
         <connection>
             <from id="LIMIT" port="0"/>
             <to id="BEAM" port="0"/>
         </connection>
         <connection>
+            <from id="BEAM" port="0"/>
+            <to id="DEMO" port="0"/>
+        </connection>
+        <connection>
+            <from id="DEMO" port="0"/>
+            <to id="LOGC" port="0"/>
+        </connection>
+        <connection>
             <from id="LOGC" port="0"/>
             <to id="SCAN" port="0"/>
         </connection>
         <connection>
-            <from id="US-Mock" port="0"/>
-            <to id="LIMIT" port="0"/>
+            <from id="SCAN" port="0"/>
+            <to id="MHD" port="0"/>
         </connection>
     </connections>
 </supra_config>
+

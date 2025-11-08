@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<supra_config>
+    <devices>
+        <inputs>
+            <input type="UltrasoundInterfaceRawDataMock" id="US-Mock">
+                <param name="mockDataFilename" type="string">data/linearProbe_IPCAI_128-2_0.raw</param>
+                <param name="mockMetaDataFilename" type="string">data/linearProbe_IPCAI_128-2.mock</param>
+            </input>
+        </inputs>
+        <outputs>
+            <!-- Output after beamforming (RF data) -->
+            <output type="MetaImageOutputDevice" id="OUT_BEAM">
+                <param name="createSequences" type="bool">0</param>
+                <param name="filename" type="string">stage1_beamformed</param>
+                <param name="active" type="bool">1</param>
+            </output>
+            
+            <!-- Output after envelope detection -->
+            <output type="MetaImageOutputDevice" id="OUT_ENV">
+                <param name="createSequences" type="bool">0</param>
+                <param name="filename" type="string">stage2_envelope</param>
+                <param name="active" type="bool">1</param>
+            </output>
+            
+            <!-- Output after log compression -->
+            <output type="MetaImageOutputDevice" id="OUT_LOG">
+                <param name="createSequences" type="bool">0</param>
+                <param name="filename" type="string">stage3_logcomp</param>
+                <param name="active" type="bool">1</param>
+            </output>
+            
+            <!-- Output after scan conversion (final B-mode) -->
+            <output type="MetaImageOutputDevice" id="OUT_SCAN">
+                <param name="createSequences" type="bool">0</param>
+                <param name="filename" type="string">stage4_bmode</param>
+                <param name="active" type="bool">1</param>
+            </output>
+        </outputs>
+        <nodes>
+            <node type="BeamformingNode" id="BEAM">
+                <param name="windowParameter" type="double">0.5</param>
+                <param name="windowType" type="string">Hamming</param>
+            </node>
+            <node type="HilbertFirEnvelopeNode" id="ENVELOPE"/>
+            <node type="FrequencyLimiterNode" id="LIMIT">
+                <param name="maxFrequency" type="double">50</param>
+            </node>
+            <node type="LogCompressorNode" id="LOGCOMP">
+                <param name="dynamicRange" type="double">80</param>
+                <param name="inMax" type="double">32600</param>
+            </node>
+            <node type="ScanConverterNode" id="SCAN"/>
+        </nodes>
+    </devices>
+    <connections>
+        <!-- Main pipeline -->
+        <connection>
+            <from id="US-Mock" port="0"/>
+            <to id="LIMIT" port="0"/>
+        </connection>
+        <connection>
+            <from id="LIMIT" port="0"/>
+            <to id="BEAM" port="0"/>
+        </connection>
+        <connection>
+            <from id="BEAM" port="0"/>
+            <to id="ENVELOPE" port="0"/>
+        </connection>
+        <connection>
+            <from id="ENVELOPE" port="0"/>
+            <to id="LOGCOMP" port="0"/>
+        </connection>
+        <connection>
+            <from id="LOGCOMP" port="0"/>
+            <to id="SCAN" port="0"/>
+        </connection>
+        
+        <!-- Output connections - save each stage -->
+        <connection>
+            <from id="BEAM" port="0"/>
+            <to id="OUT_BEAM" port="0"/>
+        </connection>
+        <connection>
+            <from id="ENVELOPE" port="0"/>
+            <to id="OUT_ENV" port="0"/>
+        </connection>
+        <connection>
+            <from id="LOGCOMP" port="0"/>
+            <to id="OUT_LOG" port="0"/>
+        </connection>
+        <connection>
+            <from id="SCAN" port="0"/>
+            <to id="OUT_SCAN" port="0"/>
+        </connection>
+    </connections>
+</supra_config>
+
